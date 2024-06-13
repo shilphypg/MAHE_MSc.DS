@@ -1,0 +1,58 @@
+---
+title: "Graphing using ggplot-Part 1"
+output:
+  word_document: default
+  html_notebook: default
+  pdf_document: default
+editor_options:
+  chunk_output_type: inline
+---
+
+```{r}
+library(ggplot2)
+```
+
+
+```{r}
+#Load the mpg dataset
+data('mpg')
+mpgData=mpg
+```
+
+```{r}
+#Print the first five rows(or samples) i the dataframe
+head(mpgData)
+```
+
+```{r}
+#Print the last five rows(or samples) i the dataframe
+tail(mpgData)
+```
+```{r}
+#initialize the ggplot2
+ggplot(data=mpgData)
+```
+```{r}
+#create a plot object
+p1=ggplot(data=mpgData)
+p1
+```
+
+```{r}
+#use the aesthetic mapping function aes() to specify the aesthetic mapping, that is which variables should be plotted
+p1=ggplot(data=mpgData,aes(x=displ,y=hwy))
+p1
+```
+
+```{r}
+#Use geom_type functions to add geometric elements
+p1=p1 + geom_point()
+p1
+```
+
+```{r}
+#Add labels and title
+p1 = p1 + labs(x= 'Displacement (litres)', y = 'Mileage (MPG)' ,title = 'Mileage vs. Displacement')
+p1
+```
+

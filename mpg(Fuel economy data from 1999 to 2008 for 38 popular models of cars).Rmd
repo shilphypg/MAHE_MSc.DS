@@ -1,0 +1,122 @@
+---
+title: "Graphing using ggplot-Part 1"
+output:
+  word_document: default
+  html_notebook: default
+  pdf_document: default
+editor_options:
+  chunk_output_type: inline
+---
+
+```{r}
+library(ggplot2)
+library(dplyr)
+```
+
+
+```{r}
+#Load the mpg dataset
+data('mpg')
+mpgData=mpg
+```
+
+```{r}
+#Print the first five rows(or samples) i the dataframe
+head(mpgData)
+```
+
+```{r}
+#Print the last five rows(or samples) i the dataframe
+tail(mpgData)
+```
+```{r}
+#initialize the ggplot2
+ggplot(data=mpgData)
+```
+```{r}
+#create a plot object
+p1=ggplot(data=mpgData)
+p1
+```
+
+```{r}
+#use the aesthetic mapping function aes() to specify the aesthetic mapping, that is which variables should be plotted
+p1=ggplot(data=mpgData,aes(x=displ,y=hwy))
+p1
+```
+
+```{r}
+#Use geom_type functions to add geometric elements
+p1=p1 + geom_point()
+p1
+```
+
+```{r}
+#Add labels and title
+p1 = p1 + labs(x= 'Displacement (litres)', y = 'Mileage (MPG)' ,title = 'Mileage vs. Displacement')
+p1
+```
+```{r}
+#Map aesthetics to variables
+#Map the color aesthetic to the class variable
+p2 = ggplot(data=mpgData)+geom_point(mapping=aes(x=displ,y=hwy,color=class))
+p2
+```
+```{r}
+#Map aesthetics to variables
+#Map the size (or alpha or shape) aesthetics to the class variable
+p3 = ggplot(data=mpgData)+geom_point(mapping=aes(x=displ,y=hwy,size=class))
+p3
+```
+```{r}
+#Map aesthetics to variables
+#Map the size (or alpha or shape) aesthetics to the class variable
+p4 = ggplot(data=mpgData)+geom_point(mapping=aes(x=displ,y=hwy,alpha=class))
+p4
+```
+```{r}
+#set aesthetic manually
+#Mark the points blue in color,square in shape,and fixed size.
+p4 = ggplot(data=mpgData)+geom_point(aes(x=displ,y=hwy),color='blue')
+p4
+```
+
+```{r}
+#set aesthetic manually
+#Mark the points blue in color,square in shape,and fixed size.
+p4 = ggplot(data=mpgData)+geom_point(aes(x=displ,y=hwy),color='blue',shape=1,size=5)
+p4
+```
+```{r}
+#facets-is a subplot facet wrap tell us what variable we use for subplot
+#plot mileage w.r.t. each class individually
+ggplot(data=mpgData)+geom_point(mapping=aes(x=displ,y=hwy))+facet_wrap(~class,nrow=2)
+
+```
+```{r}
+#to create facet grid using 2 variable
+#plot mileage w.r.t.drive train and number of cylinders
+ggplot(data=mpgData)+geom_point(mapping=aes(x=displ,y=hwy))+facet_grid(drv~cyl)
+```
+```{r}
+#A quick exercise on facet plotting with filtering of samples
+#investigate the number of levels in the cyl feature
+factor(mpgData$cyl)
+
+#How many cars of each cyl type are there?
+mpgData %>% count(cyl)
+#filter samples with 3 and 5 cylinder cars(which are very rare
+mpgData=mpgData %>% filter(!(cyl %in% c(5)))
+head(mpgData,5)
+p5=ggplot(data=mpgData)+geom_point(mapping=aes(x=displ,y=hwy,color=cyl))
+p5
+#Map the color aesthetic to the cyl variable
+p6=ggplot(data=mpgData)+geom_point(mapping=aes(x=displ,y=hwy,color=factor(cyl)))
+p6
+
+p7=ggplot(data=mpgData)+geom_point(mapping=aes(x=displ,y=hwy,color=factor(cyl),shape=class))
+p7
+
+                                               
+```
+
